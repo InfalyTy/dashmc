@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function App() {
-  const SERVER_IP = "mc.dashmc.net";
+  const SERVER_IP = "mc.minedashn.net";
   const [copied, setCopied] = useState(false);
   const [players, setPlayers] = useState(null);
 
