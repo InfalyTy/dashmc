@@ -14,7 +14,7 @@ export default function App() {
 
   // Obtener jugadores online
   useEffect(() => {
-    fetch("https://api.mcstatus.io/v2/status/java/mc.dashmc.net")
+    fetch("https://api.mcstatus.io/v2/status/java/mc.minedashn.net")
       .then(res => res.json())
       .then(data => {
         setPlayers(data.players.online);
