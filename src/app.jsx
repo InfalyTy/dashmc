@@ -1,41 +1,59 @@
+import { useEffect, useState } from "react";
+
 export default function App() {
+  const SERVER_IP = "mc.dashmc.net";
+  const [copied, setCopied] = useState(false);
+  const [players, setPlayers] = useState(null);
+
+  // Copiar IP
+  const copyIP = async () => {
+    await navigator.clipboard.writeText(SERVER_IP);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  // Obtener jugadores online
+  useEffect(() => {
+    fetch("https://api.mcstatus.io/v2/status/java/mc.dashmc.net")
+      .then(res => res.json())
+      .then(data => {
+        setPlayers(data.players.online);
+      })
+      .catch(() => setPlayers("?"));
+  }, []);
+
   return (
     <div className="app">
-      <header className="hero">
+      <header className="hero fade-in">
         <h1>DashMC Network</h1>
-        <p>BoxPvP · Eventos · Comunidad competitiva</p>
-        <div className="buttons">
-          <a href="#" className="btn primary">Jugar ahora</a>
-          <a href="#" className="btn secondary">Tienda</a>
+        <p>BoxPvP · Eventos · PvP competitivo</p>
+
+        <div className="ip-box" onClick={copyIP}>
+          <span>{SERVER_IP}</span>
+          <small>{copied ? "¡IP copiada!" : "Click para copiar"}</small>
+        </div>
+
+        <div className="players">
+          👥 {players !== null ? `${players} jugadores online` : "Cargando..."}
         </div>
       </header>
 
-      <section className="section">
+      <section className="section slide-up">
         <h2>¿Qué es DashMC?</h2>
         <p>
-          DashMC es una network de Minecraft centrada en el Landbox,
-          con sistemas personalizados, eventos frecuentes y una
-          experiencia optimizada para PvP competitivo.
+          Una network de Minecraft centrada en BoxPvP con sistemas personalizados,
+          rendimiento optimizado y una comunidad activa.
         </p>
       </section>
 
-      <section className="section cards">
-        <div className="card">
-          <h3>⚔ BoxPvP</h3>
-          <p>Combate constante, mejoras y progresión competitiva.</p>
-        </div>
-        <div className="card">
-          <h3>🎁 Eventos</h3>
-          <p>Eventos especiales, recompensas únicas y temporadas.</p>
-        </div>
-        <div className="card">
-          <h3>🚀 Rendimiento</h3>
-          <p>Servidor optimizado para 1.20.x sin lag.</p>
-        </div>
+      <section className="section cards slide-up">
+        <div className="card">⚔ BoxPvP competitivo</div>
+        <div className="card">🎁 Eventos frecuentes</div>
+        <div className="card">🚀 Alto rendimiento</div>
       </section>
 
-      <footer className="footer">
-        <p>© 2025 DashMC Network — No afiliado con Mojang</p>
+      <footer className="footer fade-in">
+        © 2025 DashMC Network — No afiliado con Mojang
       </footer>
     </div>
   );
